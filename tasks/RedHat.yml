@@ -3,7 +3,6 @@
   yum:
     name: "{{ item }}"
     update_cache: yes
-  when: ansible_os_family == "RedHat"
   with_items:
     - yum-utils
     - device-mapper-persistent-data
@@ -11,14 +10,20 @@
   become: true
 
 - name: install yum repo for Docker
-  yum_repository:
-    name: Docker Repo
-    baseurl: https://download.docker.com/linux/centos/docker-ce.repo
-  when: ansible_os_family == "RedHat"
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
   become: true
 
 - name: Install Docker CE
   yum:
     name: docker-ce
     update_cache: yes
+  become: true
+
+- name: Start & Enable Docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes
   become: true
