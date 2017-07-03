@@ -25,6 +25,7 @@ jobs:
           command: |
             echo "localhost" > ansible.hosts
             printf "[defaults]\nroles_path=../" > ansible.cfg
+            ansible-galaxy install -p "../" bobbyrenwick.pip
       - run:
           name: run syntax check
           command: ansible-playbook tests/playbook.yml --syntax-check -i ansible.hosts -v

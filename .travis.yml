@@ -9,6 +9,7 @@ install:
   - pip install ansible
   - echo "localhost" > ansible.hosts
   - 'printf "[defaults]\nroles_path=../" > ansible.cfg'
+  - ansible-galaxy install -p "../" bobbyrenwick.pip
   - ansible --version
 
 script:
